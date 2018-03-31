@@ -18,7 +18,7 @@
     </form>
 
     <script type="text/javascript">
-        var socket = io('http://localhost:3000');
+        var socket = io('https://movieflixparty.herokuapp.com/');
 
         function renderMessage(message) {
             $('.messages').append('<div class="message"><strong>' + message.author + ': ' + '</strong>' + message.message + '</div>');
