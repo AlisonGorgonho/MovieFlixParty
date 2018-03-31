@@ -14,8 +14,6 @@ app.use('/', (req, res) => {
     res.render('index.html');
 })
 
-
-
 let messages = [];
 
 io.on('connection', socket => {
@@ -30,4 +28,4 @@ io.on('connection', socket => {
 ;    });
 });
 
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
