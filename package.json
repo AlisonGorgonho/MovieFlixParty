@@ -1,0 +1,31 @@
+{
+  "name": "movieflixparty",
+  "version": "1.0.0",
+  "description": "Serviço de party em streaming de vídeo, com sincronização e chat integrados.",
+  "main": "index.js",
+  "dependencies": {
+    "ejs": "^2.5.8",
+    "express": "^4.16.3",
+    "jquery": "^3.3.1",
+    "socket.io-client": "^2.1.0",
+    "socketio": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlisonGorgonho/MovieFlixParty.git"
+  },
+  "author": "Alison Gorgonho da Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlisonGorgonho/MovieFlixParty/issues"
+  },
+  "engines": {
+    "node": "8.11.1"
+  },
+  "homepage": "https://github.com/AlisonGorgonho/MovieFlixParty#readme"
+}
+
