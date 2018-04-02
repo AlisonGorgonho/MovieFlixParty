@@ -5,17 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MovieFlix Party</title>
+
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.dev.js"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <form action="chat" id="chat">
-        <input type="text" name="username" placeholder="digite seu usuário">
+
+    <div class="chat-container">
         <div class="messages"></div>
-        <input type="text" name="message" placeholder="digite sua mensagem">
-        <button type="submit">Enviar</button>
-    </form>
+        <form action="chat" id="chat">
+            <input type="text" name="username" class="username" placeholder="digite seu usuário">
+            <input type="text" name="message" class="write-message" placeholder="digite sua mensagem">
+            <button type="submit" class="btn-submit"><i class="material-icons">send</i></button>
+        </form>
+    </div>
 
     <script type="text/javascript">
         var socket = io('https://movieflixparty.herokuapp.com/');
