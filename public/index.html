@@ -13,7 +13,15 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
+    <div>
+        <video id="player" width="400" height="300" controls>
+            <source src="https://doc-0c-a8-docs.googleusercontent.com/docs/securesc/r5kg5td8n56bcov55odmm1omkvokq6sa/bbtpej938vq0dakolhpmfjumr8vovsjj/1522749600000/17289100030246133521/17289100030246133521/1I-s6hwg69w_cSP09j1XUcXPurXcdyDEg?e=download&nonce=2smgm6ime76lm&user=17289100030246133521&hash=ku2nannqkeops4dpvnp6b33rad876h7t" type="video/mp4">
+        </video>
+        <div>
+            <button id="pauseBtn" onclick="pausePlayer()">Pause</button>
+            <button id="playBtn" onclick="playPlayer()">Play</button>
+        </div>
+    </div>
     <div class="chat-container">
         <div class="messages"></div>
         <form action="chat" id="chat">
@@ -24,7 +32,42 @@
     </div>
 
     <script type="text/javascript">
+
+        var player = document.getElementById("player");
         var socket = io('https://movieflixparty.herokuapp.com/');
+        
+        function pausePlayer() {
+            if(player.played){
+                player.pause();
+            }
+        }
+        function playPlayer() {
+            if (player.paused){
+                player.play();
+            }
+        }
+
+        $('#playBtn').click(function(){
+            if (player.played) {
+                console.log("Vídeo reproduzindo !");
+                socket.emit('playClicado', false);
+            }
+        })
+
+        $('#pauseBtn').click(function(){
+            if (player.paused) {
+                console.log("Vídeo pausado !");
+                socket.emit('pauseClicado', true);
+            }
+        })
+        
+        socket.on('estadoDoPlayer', function(pausadoServidor) {
+            if (pausadoServidor) {
+                player.pause();
+            } else {
+                player.play();
+            }
+        })
 
         function renderMessage(message) {
             $('.messages').append('<div class="message"><strong>' + message.author + ': ' + '</strong>' + message.message + '</div>');
