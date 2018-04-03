@@ -15,6 +15,7 @@ app.use('/', (req, res) => {
 })
 
 let messages = [];
+let pausadoServidor = true;
 
 io.on('connection', socket => {
 
@@ -25,7 +26,19 @@ io.on('connection', socket => {
     socket.on('sendMessage', data => {
         messages.push(data);
         socket.broadcast.emit('receivedMessage', data)
-;    });
+    });
+
+    socket.on('pauseClicado', data =>{
+        console.log("Servidor informa que o pause foi clicado.");
+        pausadoServidor = data;
+        socket.broadcast.emit("estadoDoPlayer", pausadoServidor);
+    })
+    socket.on("playClicado", data => {
+        pausadoServidor = data;
+        console.log("O servidor informa que o play foi clicado.");
+        socket.broadcast.emit("estadoDoPlayer", pausadoServidor)
+    })
+
 });
 
 server.listen(process.env.PORT || 3000);
