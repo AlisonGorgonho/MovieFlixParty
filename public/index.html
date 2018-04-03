@@ -9,7 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.dev.js"></script>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -26,8 +26,8 @@
         <div class="messages"></div>
         <form action="chat" id="chat">
             <input type="text" name="username" class="username" placeholder="digite seu usuário">
-            <input type="text" name="message" class="write-message" placeholder="digite sua mensagem">
-            <button type="submit" class="btn-submit"><i class="material-icons">send</i></button>
+            <input type="text" name="message" id="message" class="write-message" placeholder="digite sua mensagem">
+            <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i></button>
         </form>
     </div>
 
@@ -99,6 +99,8 @@
 
                 socket.emit('sendMessage', messageObject);
             }
+
+            $("#message").val('');
         });
     </script>
 </body>
