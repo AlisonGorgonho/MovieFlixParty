@@ -1,107 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MovieFlix Party</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>MovieFlix Party</title>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.dev.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.dev.js"></script>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div>
-        <video id="player" width="400" height="300" controls>
-            <source src="https://drive.google.com/uc?export=download&id=1I-s6hwg69w_cSP09j1XUcXPurXcdyDEg" type="video/mp4">
-        </video>
-        <div>
-            <button id="pauseBtn" onclick="pausePlayer()">Pause</button>
-            <button id="playBtn" onclick="playPlayer()">Play</button>
-        </div>
-    </div>
-    <div class="chat-container">
-        <div class="messages"></div>
-        <form action="chat" id="chat">
-            <input type="text" name="username" class="username" placeholder="digite seu usuário">
-            <input type="text" name="message" id="message" class="write-message" placeholder="digite sua mensagem">
-            <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i></button>
-        </form>
-    </div>
 
-    <script type="text/javascript">
+	<div class="container">
+		<div class="box-video">
+			<video id="player" width="100%" height="100%" controls>
+				<source src="https://drive.google.com/uc?export=download&id=1I-s6hwg69w_cSP09j1XUcXPurXcdyDEg" type="video/mp4">
+			</video>
+			<div>
+				<button id="pauseBtn" onclick="pausePlayer()">Pause</button>
+				<button id="playBtn" onclick="playPlayer()">Play</button>
+			</div>
+		</div>
+		<div class="box-chat">
+			<div class="messages"></div>
+			<form action="chat" id="chat">
+				<input type="text" name="username" class="username" placeholder="digite seu usuário">
+				<input type="text" name="message" id="message" class="write-message" placeholder="digite sua mensagem">
+				<button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i></button>
+			</form>
+		</div>
+	</div>
 
-        var player = document.getElementById("player");
-        var socket = io('https://movieflixparty.herokuapp.com/');
-        
-        function pausePlayer() {
-            if(player.played){
-                player.pause();
-            }
-        }
-        function playPlayer() {
-            if (player.paused){
-                player.play();
-            }
-        }
+	<script type="text/javascript">
 
-        $('#playBtn').click(function(){
-            if (player.played) {
-                console.log("Vídeo reproduzindo !");
-                socket.emit('playClicado', false);
-            }
-        })
+		var player = document.getElementById("player");
+		var socket = io('https://movieflixparty.herokuapp.com/');
 
-        $('#pauseBtn').click(function(){
-            if (player.paused) {
-                console.log("Vídeo pausado !");
-                socket.emit('pauseClicado', true);
-            }
-        })
-        
-        socket.on('estadoDoPlayer', function(pausadoServidor) {
-            if (pausadoServidor) {
-                player.pause();
-            } else {
-                player.play();
-            }
-        })
+		function pausePlayer() {
+			if(player.played){
+				player.pause();
+			}
+		}
+		function playPlayer() {
+			if (player.paused){
+				player.play();
+			}
+		}
 
-        function renderMessage(message) {
-            $('.messages').append('<div class="message"><strong>' + message.author + ': ' + '</strong>' + message.message + '</div>');
-        }
+		$('#playBtn').click(function(){
+			if (player.played) {
+				console.log("Vídeo reproduzindo !");
+				socket.emit('playClicado', false);
+			}
+		})
 
-        socket.on('previousMessages', function(messages) {
-            for (message of messages) {
-                renderMessage(message);
-            }
-        })
+		$('#pauseBtn').click(function(){
+			if (player.paused) {
+				console.log("Vídeo pausado !");
+				socket.emit('pauseClicado', true);
+			}
+		})
 
-        socket.on('receivedMessage', function(message) {
-            renderMessage(message);
-        })
+		socket.on('estadoDoPlayer', function(pausadoServidor) {
+			if (pausadoServidor) {
+				player.pause();
+			} else {
+				player.play();
+			}
+		})
 
-        $('#chat').submit(function(event) {
-            event.preventDefault();
+		function renderMessage(message) {
+			$('.messages').append('<div class="message"><strong>' + message.author + ': ' + '</strong>' + message.message + '</div>');
+		}
 
-            var author = $('input[name=username]').val();
-            var message = $('input[name=message]').val();
+		socket.on('previousMessages', function(messages) {
+			for (message of messages) {
+				renderMessage(message);
+			}
+		})
 
-            if (author.length && message.length){
-                var messageObject = {
-                    author: author,
-                    message: message,
-                };
-                
-                renderMessage(messageObject);
+		socket.on('receivedMessage', function(message) {
+			renderMessage(message);
+		})
 
-                socket.emit('sendMessage', messageObject);
-            }
+		$('#chat').submit(function(event) {
+			event.preventDefault();
 
-            $("#message").val('');
-        });
-    </script>
+			var author = $('input[name=username]').val();
+			var message = $('input[name=message]').val();
+
+			if (author.length && message.length){
+				var messageObject = {
+					author: author,
+					message: message,
+				};
+
+				renderMessage(messageObject);
+
+				socket.emit('sendMessage', messageObject);
+			}
+
+			$("#message").val('');
+		});
+	</script>
+
 </body>
 </html>
+
+
+
+
+
+
