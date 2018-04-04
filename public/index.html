@@ -17,7 +17,7 @@
 	<div class="container">
 		<div class="box-video">
 			<video id="player" width="100%" height="100%" controls>
-				<source src="https://drive.google.com/uc?export=download&id=1I-s6hwg69w_cSP09j1XUcXPurXcdyDEg" type="video/mp4">
+				<source src="https://drive.google.com/uc?export=download&id=1eA6dQzgeIfEL8r6dIvtRU0GqHd1sAYys" type="video/mp4">
 			</video>
 			<div>
 				<button id="pauseBtn" onclick="pausePlayer()">Pause</button>
@@ -38,6 +38,26 @@
 
 		var player = document.getElementById("player");
 		var socket = io('https://movieflixparty.herokuapp.com/');
+		// var socket = io('http://localhost:3000');
+		player.currentTime = 0;
+
+		userConnected();
+
+		function userConnected() {
+			socket.emit('userConnected', true);
+			socket.emit('pauseClicado', true);
+			console.log(`Usuário ${socket.id} tentando se connectar.`);
+		}
+		
+		socket.on("getCurrentTime", function() {
+			console.log(`O tempo atual do vídeo é: ${player.currentTime}`);
+			socket.emit("setCurrentTime", player.currentTime);
+		})
+
+		socket.on("putCurrentTime", data => {
+			console.log(`Atualizando o tempo do vídeo para: ${data}`);
+			player.currentTime = data;
+		})
 
 		function pausePlayer() {
 			if(player.played){
