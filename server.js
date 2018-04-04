@@ -16,6 +16,7 @@ app.use('/', (req, res) => {
 
 let messages = [];
 let pausadoServidor = true;
+let currentTime = 0;
 
 io.on('connection', socket => {
 
@@ -38,6 +39,21 @@ io.on('connection', socket => {
         console.log("O servidor informa que o play foi clicado.");
         socket.broadcast.emit("estadoDoPlayer", pausadoServidor)
     })
+
+    socket.on("userConnected", data => {
+        if (data){
+            console.log(`Usuário ${socket.id} conectado`);
+            socket.broadcast.emit("getCurrentTime");
+        }
+    })
+
+    socket.on("setCurrentTime", data => {
+        if (data > 0) {
+            currentTime = data;
+            console.log(`O tempo do vídeo foi atualizado para ${data}`);
+            socket.broadcast.emit("putCurrentTime", currentTime);
+        }
+    });
 
 });
 
