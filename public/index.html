@@ -11,13 +11,41 @@
 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
+
+	<script>
+		$(function(){
+			$('#modal').show('show');
+		});
+	</script>
+
+	<!-- modal code -->
+	<div id="modal" class="modal-hero">
+		<div class="modal-content">
+		  
+			<header class="modal-container w3-teal">
+				<h2>Passos para criar sua party</h2>
+			</header>
+		  
+			<div class="modal-container">
+				<p>Insira o link do seu vídeo hospedado no google drive</p>
+				<input type="text" id="linkVideo">
+				<button type="submit" id="criarParty" onclick="criarParty();document.getElementById('modal').style.display='none';">Criar Party</button>
+			</div>
+	  
+		</div>
+	</div> 
+	<!-- modal code -->
+
 
 	<div class="container">
 		<div class="box-video">
 			<video id="player" width="100%" height="100%" controls>
-				<source src="https://drive.google.com/uc?export=download&id=1eA6dQzgeIfEL8r6dIvtRU0GqHd1sAYys" type="video/mp4">
+				<!-- <source src="https://drive.google.com/uc?export=download&id=1eA6dQzgeIfEL8r6dIvtRU0GqHd1sAYys" type="video/mp4"> -->
+				<source type="video/mp4">
+
 			</video>
 			<div>
 				<button id="pauseBtn" onclick="pausePlayer()">Pause</button>
@@ -125,6 +153,12 @@
 
 			$("#message").val('');
 		});
+
+		function criarParty() {
+			var linkVideo = document.getElementById('linkVideo');
+			console.log(linkVideo.value);
+			$('#player').attr('src', linkVideo.value);
+		}
 	</script>
 
 </body>
