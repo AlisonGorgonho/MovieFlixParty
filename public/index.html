@@ -22,23 +22,23 @@
 	</script>
 
 	<!-- modal code -->
-	<div id="modal" class="modal-hero">
+	<div id="modal" class="modal">
 		<div class="modal-content">
-		  
-			<header class="modal-container w3-teal">
+			<div class="modal-header">
 				<h2>Passos para criar sua party</h2>
-			</header>
-		  
-			<div class="modal-container">
-				<p>Insira o link do seu vídeo hospedado no google drive</p>
-				<input type="text" id="linkVideo">
-				<button type="submit" id="criarParty" onclick="criarParty();document.getElementById('modal').style.display='none';">Criar Party</button>
 			</div>
-	  
+		  
+			<div class="modal-body">
+				<p>Insira o link do seu vídeo:</p>
+
+				<div class="form-group">
+					<input class="form-control" type="text" id="linkVideo">
+					<button class="btn btn-create" type="submit" id="criarParty" onclick="criarParty();">Criar Party</button>
+				</div>
+			</div>
 		</div>
 	</div> 
 	<!-- modal code -->
-
 
 	<div class="container">
 		<div class="box-video">
@@ -100,14 +100,14 @@
 
 		$('#playBtn').click(function(){
 			if (player.played) {
-				console.log("Vídeo reproduzindo !");
+				console.log("Vídeo reproduzindo");
 				socket.emit('playClicado', false);
 			}
 		})
 
 		$('#pauseBtn').click(function(){
 			if (player.paused) {
-				console.log("Vídeo pausado !");
+				console.log("Vídeo pausado");
 				socket.emit('pauseClicado', true);
 			}
 		})
@@ -167,6 +167,7 @@
 			var linkVideo = document.getElementById('linkVideo');
 			console.log(linkVideo.value);
 			$('#player').attr('src', linkVideo.value);
+			$('.modal').toggleClass('hidden');
 		}
 	</script>
 
