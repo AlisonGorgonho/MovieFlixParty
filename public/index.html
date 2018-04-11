@@ -26,9 +26,9 @@
 		</div>
 		<div class="box-chat">
 			<div class="messages"></div>
-			<form action="chat" id="chat">
-				<input type="text" name="username" class="username" placeholder="digite seu usuário">
-				<input type="text" name="message" id="message" class="write-message" placeholder="digite sua mensagem">
+			<form action="chat" id="chat" autocomplete="off">
+				<input type="text" name="username" class="username form-control" placeholder="digite seu usuário">
+				<input type="text" name="message" id="message" class="write-message form-control" placeholder="digite sua mensagem">
 				<button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i></button>
 			</form>
 		</div>
@@ -73,7 +73,7 @@
 		})
 
 		function renderMessage(message) {
-			$('.messages').append('<div class="message"><strong>' + message.author + ': ' + '</strong>' + message.message + '</div>');
+			$('.messages').append('<div class="message"><span class="message-author">' + message.author + ': ' + '</span>' + message.message + '</div>');
 		}
 
 		socket.on('previousMessages', function(messages) {
@@ -85,6 +85,13 @@
 		socket.on('receivedMessage', function(message) {
 			renderMessage(message);
 		})
+
+     $('.form-control').keydown(function (e) {
+         if (e.which === 13) {
+             var index = $('.form-control').index(this) + 1;
+             $('.form-control').eq(index).focus();
+         }
+     });
 
 		$('#chat').submit(function(event) {
 			event.preventDefault();
@@ -104,14 +111,10 @@
 			}
 
 			$("#message").val('');
+
+			$(".messages").stop().animate({ scrollTop: $(".messages")[0].scrollHeight}, 1000);
 		});
 	</script>
 
 </body>
 </html>
-
-
-
-
-
-

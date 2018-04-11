@@ -51,6 +51,10 @@ body, html {
 	word-wrap: break-word;
 }
 
+.box-chat .message .message-author {
+	font-weight: bold;
+}
+
 .box-chat .messages, .box-chat input {
 	background: #222;
 	color: #d8d8d8;
