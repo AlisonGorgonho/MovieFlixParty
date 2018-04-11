@@ -134,12 +134,12 @@
 			renderMessage(message);
 		})
 
-     $('.form-control').keydown(function (e) {
-         if (e.which === 13) {
-             var index = $('.form-control').index(this) + 1;
-             $('.form-control').eq(index).focus();
-         }
-     });
+		$('.form-control').keydown(function (e) {
+			if (e.which === 13) {
+				var index = $('.form-control').index(this) + 1;
+				$('.form-control').eq(index).focus();
+			}
+		});
 
 		$('#chat').submit(function(event) {
 			event.preventDefault();
