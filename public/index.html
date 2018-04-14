@@ -65,8 +65,8 @@
 	<script type="text/javascript">
 
 		var player = document.getElementById("player");
-		var socket = io('https://movieflixparty.herokuapp.com/');
-		// var socket = io('http://localhost:3000');
+		// var socket = io('https://movieflixparty.herokuapp.com/');
+		var socket = io('http://localhost:3000');
 		player.currentTime = 0;
 
 		userConnected();
@@ -121,7 +121,11 @@
 		})
 
 		function renderMessage(message) {
-			$('.messages').append('<div class="message"><span class="message-author">' + message.author + ': ' + '</span>' + message.message + '</div>');
+			if (message.id == socket.id) {
+				$('.messages').append('<div class="message"><span class="message-author">' + message.author + ': ' + '</span>' + message.message + '</div> mensagen enviada por mim');
+			} else {
+				$('.messages').append('<div class="message"><span class="message-author">' + message.author + ': ' + '</span>' + message.message + '</div> mensagem enviada por outrem');				
+			}
 		}
 
 		socket.on('previousMessages', function(messages) {
@@ -151,6 +155,7 @@
 				var messageObject = {
 					author: author,
 					message: message,
+					id : socket.id
 				};
 
 				renderMessage(messageObject);
