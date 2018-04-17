@@ -121,7 +121,11 @@
 		})
 
 		function renderMessage(message) {
-			$('.messages').append('<div class="message"><span class="message-author">' + message.author + ': ' + '</span>' + message.message + '</div>');
+			if (message.id == socket.id) {
+				$('.messages').append('<div class="message message-sent"><span class="message-author">' + message.author + ': ' + '</span><span class="message-content">' + message.message + '</span></div>');
+			} else {
+				$('.messages').append('<div class="message message-received"><span class="message-author">' + message.author + ': ' + '</span><span class="message-content">' + message.message + '</span></div>');				
+			}
 		}
 
 		socket.on('previousMessages', function(messages) {
@@ -132,6 +136,7 @@
 
 		socket.on('receivedMessage', function(message) {
 			renderMessage(message);
+			$(".messages").stop().animate({ scrollTop: $(".messages")[0].scrollHeight}, 1000);
 		})
 
 		$('.form-control').keydown(function (e) {
@@ -151,6 +156,7 @@
 				var messageObject = {
 					author: author,
 					message: message,
+					id : socket.id
 				};
 
 				renderMessage(messageObject);
